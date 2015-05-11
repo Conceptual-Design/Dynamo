@@ -172,8 +172,16 @@ namespace DynamoShapeManager
                 throw new MissingMethodException("Method 'DynamoInstallDetective.Utilities.FindProductInstallations' not found");
             }
 
+            //Look for Revit installation first, if Revit is not installed
+            //look for any other Autodesk product installation.
             var methodParams = new object[] { "Revit", "ASMAHL*.dll" };
-            return installationsMethod.Invoke(null, methodParams) as IEnumerable;
+            var installations = installationsMethod.Invoke(null, methodParams) as IEnumerable;
+            if (null == installations || !installations.Cast<object>().Any()) //Look at other Autodesk products
+            {
+                methodParams[0] = "Autodesk";
+                installations = installationsMethod.Invoke(null, methodParams) as IEnumerable;
+            }
+            return installations;
         }
     }
 }
