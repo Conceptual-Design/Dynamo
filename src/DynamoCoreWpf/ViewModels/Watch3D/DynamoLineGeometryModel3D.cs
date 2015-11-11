@@ -35,6 +35,11 @@ namespace Dynamo.Wpf.ViewModels.Watch3D
         }
 
         /// <summary>
+        /// If this line is zoom invariant
+        /// </summary>
+        public bool ZoomInvariant { get; set; }
+
+        /// <summary>
         /// Override LineGeometryModel3D's Attach method to 
         /// provide a buffer of DynamoLineVertices
         /// </summary>
@@ -106,7 +111,7 @@ namespace Dynamo.Wpf.ViewModels.Watch3D
                 {
                     Position = new Vector4(positions[i], 1f),
                     Color = finalColor,
-                    Parameters = new Vector4((bool)GetValue(AttachedProperties.ShowSelectedProperty) ? 1 : 0, 0, 0, 0)
+                    Parameters = new Vector4((bool)GetValue(AttachedProperties.ShowSelectedProperty) ? 1 : 0, ZoomInvariant ? 1 : 0, 0, 0)
                 };
             }
 

@@ -20,6 +20,21 @@ namespace Dynamo.Wpf.ViewModels.Watch3D
     }
 
     /// <summary>
+    /// These constants are defined to specify special render packages, so that
+    /// they can be rendered differently. We need to ensure that all the strings
+    /// are of same length and starts with an alphabet. Usually these are taken 
+    /// from the last part of a GUID.
+    /// </summary>
+    public struct RenderDescriptions
+    {
+        public const string ManipulatorAxis   = "B0C5DE5EB5CA";
+        public const string AxisLine          = "C4F6AC80953B";
+        public const string ZoomInvariantLine = "D2DCE92DEFFC";
+        public const string XlateManipulator  = "B2EDE7E67234";
+        public const string ManipulatorPlane  = "E75B2B0E31F1";        
+    }
+
+    /// <summary>
     /// An interface to expose API's on the Watch UI Viewmodel to extensions
     /// </summary>
     public interface IWatch3DViewModel
