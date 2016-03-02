@@ -966,7 +966,7 @@ namespace Dynamo.Tests
 
             RunModel(dynFilePath);
 
-            AssertPreviewValue("c739b941-ece7-4b87-ae69-9a16f04dbe5d", null);
+            AssertPreviewValue("c739b941-ece7-4b87-ae69-9a16f04dbe5d", new object[] { null, null, null, null });
 
             // Reset engine and mark all nodes as dirty. A.k.a., force re-execute.
             CurrentDynamoModel.ForceRun();
@@ -1021,6 +1021,29 @@ namespace Dynamo.Tests
             RunCurrentModel();
 
             AssertPreviewValue("2a944080-94e1-4cf9-88e2-64556335c838", 2);
+        }
+
+        [Test]
+        public void Regress7808()
+        {
+            // Verify that updating the function defintion will execute code blocks node that use
+            // this function.
+            var dynFilePath = Path.Combine(TestDirectory, @"core\dsevaluation\regress7808.dyn");
+            OpenModel(dynFilePath);
+
+            // Original function defintion is 
+            // def foo() { return = 21;}
+            var watchNodeGuid = "aef2375c-3dd8-4be0-8230-d964a2417f99";
+            AssertPreviewValue(watchNodeGuid, 21);
+
+            // change to
+            // def foo() { return = 42; }
+            var cbnGuid = Guid.Parse("6a260ba7-d658-4350-a777-49511f725454");
+            var command = new Models.DynamoModel.UpdateModelValueCommand(Guid.Empty, cbnGuid, "Code", @"def foo() { return = 42; }");
+            CurrentDynamoModel.ExecuteCommand(command);
+            RunCurrentModel();
+
+            AssertPreviewValue(watchNodeGuid, 42);
         }
     }
 
