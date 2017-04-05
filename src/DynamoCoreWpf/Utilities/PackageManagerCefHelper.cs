@@ -13,7 +13,7 @@ using System;
 using CefSharp.Wpf;
 using Dynamo.Wpf.Properties;
 using RestSharp;
-using static Dynamo.PackageManager.PackageDownloadHandle;
+//using static Dynamo.PackageManager.PackageDownloadHandle;
 //using ACG.Utility;
 using System.IO;
 using Dynamo.ViewModels;
@@ -38,7 +38,7 @@ namespace Dynamo.Wpf.Utilities
 
         public List<string> PackagesToInstall { get; set; }
 
-        public State PackageDownloadInstallState { get; set; }
+        public PackageDownloadHandle.State PackageDownloadInstallState { get; set; }
 
         private dynamic _downloadRequest;
         public dynamic DownloadRequest
@@ -141,7 +141,7 @@ namespace Dynamo.Wpf.Utilities
                     dynamoViewModel.Model.GetPackageManagerExtension().PackageLoader.Load(p);
                 }));
                 packageDownloadHandle.DownloadState = PackageDownloadHandle.State.Installed;
-                PackageDownloadInstallState = State.Installed;
+                PackageDownloadInstallState = PackageDownloadHandle.State.Installed;
                 this.PackageInstallPath = string.Empty;
             }
 
